@@ -14,3 +14,22 @@ let html = `<nav class="navbar navbar-expand-lg navbar-light bg-light" style="wi
 </nav>`
 
 document.querySelector('.nav').innerHTML = html;
+let url = "https://datausa.io/api/data?drilldowns=Nation&measures=Population"
+let api =  fetch(url)
+api.then((response)=>{
+  return response.json()
+}).then(async(response)=>{
+    console.log(response)
+    let data = response['data']
+    for (let i=0 ; i<data.length; i++) {
+      let yearElement = document.getElementById('Year'+i);
+      let populationElement = document.getElementById('Population'+i);
+      let nationElement = document.getElementById('Nation'+i);
+
+      if (yearElement && populationElement && nationElement) {
+        yearElement.innerHTML = `ID-Year: ${data[i]['Year']}`;
+        populationElement.innerHTML = `Population: ${data[i]['Population']}`;
+        nationElement.innerHTML = `ID-Nation: ${data[i]['ID Nation']}`;
+      }
+    }
+  })
